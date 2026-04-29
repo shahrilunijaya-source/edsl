@@ -1,0 +1,6 @@
+.claude/
+.superpowers/
+scrape/
+scrape.py
+requirements.txt
+docs/superpowers/

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>User Guide — eDSL</title>
+<link rel="icon" href="/assets/images/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0f172a', card: '#1e293b' },
+        accent: { DEFAULT: '#0ea5e9', dark: '#0284c7', light: '#e0f2fe' },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  /* Accordion */
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .acc-body.open { max-height: 3000px; }
+  .chevron { transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); display: inline-block; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* Icon strip */
+  .acc-icon-strip {
+    width: 60px;
+    flex-shrink: 0;
+    background: #0f172a;
+    border-radius: 1rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 18px 0;
+    transition: background 0.3s ease;
+  }
+  .acc-item.is-open .acc-icon-strip { background: #0ea5e9; }
+  .acc-icon-strip svg { color: #7dd3fc; transition: color 0.3s ease; }
+  .acc-item.is-open .acc-icon-strip svg { color: #fff; }
+  .acc-num {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.05em;
+    color: #38bdf8; transition: color 0.3s ease; line-height: 1;
+  }
+  .acc-item.is-open .acc-num { color: rgba(255,255,255,0.8); }
+
+  /* Trigger */
+  .acc-trigger {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .acc-trigger:hover { background: #f8fafc; }
+  .acc-item.is-open .acc-trigger { background: #f0f9ff; }
+
+  /* Content body */
+  .acc-content {
+    background: #f8faff;
+    border-left: 3px solid #bae6fd;
+    border-top: 1px solid #e0f2fe;
+  }
+
+  /* Scroll-in */
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* Quick jump pill active */
+  .qj-pill { transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .qj-pill:hover { background: #0ea5e9; color: #fff; border-color: #0ea5e9; }
+
+  /* Flowchart card */
+  .flow-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+    border: 1px solid #1e3a5f;
+    border-radius: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .flow-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -8px rgba(14,165,233,0.25); }
+
+  @keyframes waveMove1 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  @keyframes waveMove2 { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+  @keyframes waveMove3 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  .wave1 { animation: waveMove1  9s linear infinite; }
+  .wave2 { animation: waveMove2 12s linear infinite; }
+  .wave3 { animation: waveMove3 15s linear infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .wave1, .wave2, .wave3 { animation-play-state: paused; }
+  }
+</style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-navy sticky top-0 z-50 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="/"><img src="/assets/images/logo.png" alt="eDSL" class="h-11"/></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Home" data-ms="Laman Utama">Home</a>
+      <a href="/user-guide/" class="text-white text-sm font-semibold px-3 py-2 rounded-lg" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      <a href="/resources/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Resources" data-ms="Rujukan">Resources</a>
+      <a href="/vessel-services/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Vessel Procurement" data-ms="Tawaran Perkhidmatan Kapal">Vessel Procurement</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/register/" class="bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-1.5 text-sm font-semibold transition-colors" data-en="Sign In" data-ms="Log Masuk">Sign In</a>
+      <div class="flex items-center border border-slate-700 rounded-full overflow-hidden text-xs font-semibold">
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn text-white px-3 py-1.5 hover:bg-slate-800 transition-colors">EN</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="setLang('ms')" data-lang="ms" class="lang-btn text-slate-400 px-3 py-1.5 hover:bg-slate-800 transition-colors">BM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="relative overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#1e3a5f] px-6 lg:px-10 pt-14 pb-10">
+  <div class="max-w-7xl mx-auto">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-2" data-en="eDSL Portal" data-ms="Portal eDSL">eDSL Portal</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</h1>
+    <p class="text-slate-400 text-sm mb-8" data-en="Everything you need to know about the Domestic Shipping License application process." data-ms="Semua yang perlu anda tahu tentang proses permohonan Lesen Perkapalan Dalam Negeri.">Everything you need to know about the Domestic Shipping License application process.</p>
+
+    <!-- Quick Jump Pills -->
+    <div class="flex flex-wrap gap-2">
+      <a href="#acc-1" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Terms" data-ms="Syarat">Terms</a>
+      <a href="#acc-2" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Documents" data-ms="Dokumen">Documents</a>
+      <a href="#acc-3" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Procedure" data-ms="Prosedur">Procedure</a>
+      <a href="#acc-4" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Duration" data-ms="Tempoh">Duration</a>
+      <a href="#acc-5" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Fees" data-ms="Caj">Fees</a>
+      <a href="#acc-6" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Approval" data-ms="Kelulusan">Approval</a>
+      <a href="#acc-7" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Payment" data-ms="Bayaran">Payment</a>
+      <a href="#acc-8" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Revocation" data-ms="Pembatalan">Revocation</a>
+      <a href="#acc-9" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="T&amp;C" data-ms="T&amp;S">T&amp;C</a>
+      <a href="#acc-10" class="qj-pill border border-slate-600 text-slate-300 text-xs font-medium px-3 py-1.5 rounded-full" data-en="Flowcharts" data-ms="Carta Alir">Flowcharts</a>
+    </div>
+  </div>
+  <!-- WAVES -->
+  <div class="absolute bottom-0 left-0 w-full pointer-events-none overflow-hidden" style="height:50px">
+    <svg class="wave1 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.09)" d="M0,25 C200,45 400,5 600,25 C800,45 1000,5 1200,25 C1320,35 1400,20 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:6px;height:50px">
+    <svg class="wave2 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.06)" d="M0,15 C240,38 480,5 720,20 C960,35 1200,8 1440,22 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:12px;height:50px">
+    <svg class="wave3 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(30,58,95,0.5)" d="M0,35 C180,15 360,40 540,28 C720,15 900,38 1080,22 C1260,8 1380,30 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ACCORDION -->
+<div class="max-w-4xl mx-auto px-6 lg:px-10 py-12 space-y-3 fade-up">
+
+  <!-- 1: Terms of Application -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-1">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <span class="acc-num">01</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Application" data-ms="Permohonan">Application</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Terms of Application" data-ms="Syarat-syarat Permohonan">Terms of Application</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed space-y-3">
+        <p data-en="DSL Application shall be made to Domestic Shipping License Board (LPPDN) by:" data-ms="Permohonan DSL hendaklah dikemukakan kepada Lembaga Permit Perkapalan Dalam Negeri (LPPDN) oleh:">DSL Application shall be made to Domestic Shipping License Board (LPPDN) by:</p>
+        <ul class="space-y-2 ml-1">
+          <li class="flex gap-2"><span class="text-accent font-bold mt-0.5">›</span><span data-en="A company incorporated under the Companies Act 2016 [Akta 777] with at least 51% of shareholding and composition of company director held by Malaysian citizen." data-ms="Syarikat yang diperbadankan di bawah Akta Syarikat 2016 [Akta 777] dengan sekurang-kurangnya 51% pegangan saham dan komposisi pengarah syarikat dipegang oleh warganegara Malaysia.">A company incorporated under the Companies Act 2016 [Akta 777] with at least 51% of shareholding and composition of company director held by Malaysian citizen.</span></li>
+          <li class="flex gap-2"><span class="text-accent font-bold mt-0.5">›</span><span data-en="Individuals with Malaysian citizenship (for Malaysian Registered Vessel owned by individual only)." data-ms="Individu berkewarganegaraan Malaysia (untuk Kapal Berdaftar Malaysia yang dimiliki oleh individu sahaja).">Individuals with Malaysian citizenship (for Malaysian Registered Vessel owned by individual only).</span></li>
+        </ul>
+        <div class="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-700">
+          <span class="font-semibold" data-en="Note:" data-ms="Nota:">Note:</span> <span data-en="DSL application must be submitted together with the supporting documents specified in paragraph 2." data-ms="Permohonan DSL mestilah dikemukakan bersama dokumen sokongan yang dinyatakan dalam perenggan 2.">DSL application must be submitted together with the supporting documents specified in paragraph 2.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2: Documents -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-2">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+        </svg>
+        <span class="acc-num">02</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Documents" data-ms="Dokumen">Documents</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Documents to be Submitted During DSL Application" data-ms="Dokumen yang Perlu Dikemukakan Semasa Permohonan DSL">Documents to be Submitted During DSL Application</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed space-y-4">
+        <p class="font-semibold text-slate-700" data-en="Company / Individual Documents:" data-ms="Dokumen Syarikat / Individu:">Company / Individual Documents:</p>
+        <div class="grid sm:grid-cols-2 gap-2">
+          <div class="flex gap-2 items-start bg-white rounded-xl px-3 py-2.5 border border-slate-100 shadow-sm">
+            <span class="text-accent text-base leading-none mt-0.5">›</span>
+            <span class="text-xs" data-en="Copy of Memorandum and Articles of Association" data-ms="Salinan Memorandum dan Tataurusan Syarikat">Copy of Memorandum and Articles of Association</span>
+          </div>
+          <div class="flex gap-2 items-start bg-white rounded-xl px-3 py-2.5 border border-slate-100 shadow-sm">
+            <span class="text-accent text-base leading-none mt-0.5">›</span>
+            <span class="text-xs" data-en="Copy of Form 24 (Return of Allotment of Shares)" data-ms="Salinan Borang 24 (Pulangan Peruntukan Saham)">Copy of Form 24 (Return of Allotment of Shares)</span>
+          </div>
+          <div class="flex gap-2 items-start bg-white rounded-xl px-3 py-2.5 border border-slate-100 shadow-sm">
+            <span class="text-accent text-base leading-none mt-0.5">›</span>
+            <span class="text-xs" data-en="Copy of Form 49 (Register of Directors, Managers and Secretaries)" data-ms="Salinan Borang 49 (Daftar Pengarah, Pengurus dan Setiausaha)">Copy of Form 49 (Register of Directors, Managers and Secretaries)</span>
+          </div>
+          <div class="flex gap-2 items-start bg-white rounded-xl px-3 py-2.5 border border-slate-100 shadow-sm">
+            <span class="text-accent text-base leading-none mt-0.5">›</span>
+            <span class="text-xs" data-en="Copy of MyKad (for vessel owned by individual)" data-ms="Salinan MyKad (untuk kapal dimiliki oleh individu)">Copy of MyKad (for vessel owned by individual)</span>
+          </div>
+          <div class="flex gap-2 items-start bg-white rounded-xl px-3 py-2.5 border border-slate-100 shadow-sm sm:col-span-2">
+            <span class="text-accent text-base leading-none mt-0.5">›</span>
+            <span class="text-xs" data-en="Letter of Appointment for Agent / Ship Manager (for MISR vessel and Foreign Registered Vessel)" data-ms="Surat Pelantikan Ejen / Pengurus Kapal (untuk kapal MISR dan Kapal Berdaftar Asing)">Letter of Appointment for Agent / Ship Manager (for MISR vessel and Foreign Registered Vessel)</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3">
+          <svg class="w-4 h-4 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-xs text-blue-700" data-en="Supporting documents vary by vessel type. Full details are available in the Resources section." data-ms="Dokumen sokongan berbeza mengikut jenis kapal. Butiran penuh tersedia dalam bahagian Rujukan.">Supporting documents vary by vessel type. Full details are available in the Resources section.</span>
+          <a href="/resources/" class="ml-auto text-xs text-accent font-semibold whitespace-nowrap hover:underline" data-en="View →" data-ms="Lihat →">View →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3: Application Procedure -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-3">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+        </svg>
+        <span class="acc-num">03</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Process" data-ms="Proses">Process</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Application Procedure" data-ms="Prosedur Permohonan">Application Procedure</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed">
+        <div class="space-y-3">
+          <div class="flex gap-4 items-start">
+            <div class="w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center flex-shrink-0">1</div>
+            <div class="pt-0.5">
+              <p class="font-medium text-slate-700" data-en="Register an Account" data-ms="Daftar Akaun">Register an Account</p>
+              <p class="text-xs text-slate-500 mt-0.5" data-en="Register at the eDSL portal using your Company Registration No. or IC No." data-ms="Daftar di portal eDSL menggunakan No. Pendaftaran Syarikat atau No. IC.">Register at the eDSL portal using your Company Registration No. or IC No.</p>
+            </div>
+          </div>
+          <div class="ml-3.5 border-l-2 border-dashed border-slate-200 h-4"></div>
+          <div class="flex gap-4 items-start">
+            <div class="w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center flex-shrink-0">2</div>
+            <div class="pt-0.5">
+              <p class="font-medium text-slate-700" data-en="Log In" data-ms="Log Masuk">Log In</p>
+              <p class="text-xs text-slate-500 mt-0.5" data-en="Log in using the temporary password sent to your registered email." data-ms="Log masuk menggunakan kata laluan sementara yang dihantar ke e-mel berdaftar anda.">Log in using the temporary password sent to your registered email.</p>
+            </div>
+          </div>
+          <div class="ml-3.5 border-l-2 border-dashed border-slate-200 h-4"></div>
+          <div class="flex gap-4 items-start">
+            <div class="w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center flex-shrink-0">3</div>
+            <div class="pt-0.5">
+              <p class="font-medium text-slate-700" data-en="Complete &amp; Upload" data-ms="Lengkap &amp; Muat Naik">Complete &amp; Upload</p>
+              <p class="text-xs text-slate-500 mt-0.5" data-en="Fill in the DSL application form and upload all required supporting documents." data-ms="Isi borang permohonan DSL dan muat naik semua dokumen sokongan yang diperlukan.">Fill in the DSL application form and upload all required supporting documents.</p>
+            </div>
+          </div>
+          <div class="ml-3.5 border-l-2 border-dashed border-slate-200 h-4"></div>
+          <div class="flex gap-4 items-start">
+            <div class="w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center flex-shrink-0">4</div>
+            <div class="pt-0.5">
+              <p class="font-medium text-slate-700" data-en="Submit &amp; Pay" data-ms="Hantar &amp; Bayar">Submit &amp; Pay</p>
+              <p class="text-xs text-slate-500 mt-0.5" data-en="Submit the application and make payment online via FPX." data-ms="Hantar permohonan dan buat pembayaran secara dalam talian melalui FPX.">Submit the application and make payment online via FPX.</p>
+            </div>
+          </div>
+          <div class="ml-3.5 border-l-2 border-dashed border-slate-200 h-4"></div>
+          <div class="flex gap-4 items-start">
+            <div class="w-7 h-7 rounded-full bg-emerald-500 text-white text-xs font-bold flex items-center justify-center flex-shrink-0">5</div>
+            <div class="pt-0.5">
+              <p class="font-medium text-slate-700" data-en="Print License" data-ms="Cetak Lesen">Print License</p>
+              <p class="text-xs text-slate-500 mt-0.5" data-en="Upon approval, print your license and receipt directly from the portal." data-ms="Setelah diluluskan, cetak lesen dan resit anda terus dari portal.">Upon approval, print your license and receipt directly from the portal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4: Duration and Type -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-4">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <span class="acc-num">04</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="License" data-ms="Lesen">License</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Duration and Type of License" data-ms="Tempoh dan Jenis Lesen">Duration and Type of License</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed">
+        <div class="flex gap-4">
+          <div class="flex-1 bg-white border border-slate-100 rounded-xl p-4 text-center shadow-sm">
+            <p class="text-3xl font-extrabold text-accent">1</p>
+            <p class="text-xs font-semibold text-slate-700 mt-1" data-en="Year Per License" data-ms="Tahun Setiap Lesen">Year Per License</p>
+            <p class="text-xs text-slate-400 mt-1" data-en="Renewable annually" data-ms="Boleh diperbaharui setiap tahun">Renewable annually</p>
+          </div>
+          <div class="flex-1 bg-white border border-slate-100 rounded-xl p-4 text-center shadow-sm">
+            <svg class="w-8 h-8 text-accent mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <p class="text-xs font-semibold text-slate-700 mt-1" data-en="Type by Operation" data-ms="Jenis Mengikut Operasi">Type by Operation</p>
+            <p class="text-xs text-slate-400 mt-1" data-en="Varies per shipping type" data-ms="Berbeza mengikut jenis perkapalan">Varies per shipping type</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5: FI Charges -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-5">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+        <span class="acc-num">05</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Fees" data-ms="Caj">Fees</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="FI Charges" data-ms="Caj FI">FI Charges</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed space-y-3">
+        <p data-en="DSL License Fee (Fi Bayaran Lesen DSL) is based on the Nett Tonnage of the Vessel. No other fees are charged." data-ms="Fi Bayaran Lesen DSL adalah berdasarkan Nett Tonnage Kapal. Tiada fi lain yang dikenakan.">DSL License Fee (Fi Bayaran Lesen DSL) is based on the Nett Tonnage of the Vessel. No other fees are charged.</p>
+        <div class="grid grid-cols-2 gap-3 mt-2">
+          <div class="bg-white border border-emerald-100 rounded-xl p-3 text-center shadow-sm">
+            <p class="text-xs font-bold text-emerald-600 uppercase tracking-wide mb-1" data-en="Fee Basis" data-ms="Asas Fi">Fee Basis</p>
+            <p class="text-sm font-semibold text-slate-700" data-en="Nett Tonnage" data-ms="Nett Tonnage">Nett Tonnage</p>
+          </div>
+          <div class="bg-white border border-rose-100 rounded-xl p-3 text-center shadow-sm">
+            <p class="text-xs font-bold text-rose-500 uppercase tracking-wide mb-1" data-en="Other Charges" data-ms="Caj Lain">Other Charges</p>
+            <p class="text-sm font-semibold text-slate-700" data-en="None" data-ms="Tiada">None</p>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400" data-en="Refer to the official fee schedule for exact amounts." data-ms="Rujuk jadual fi rasmi untuk jumlah tepat.">Refer to the official fee schedule for exact amounts.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6: Approval Process -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-6">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        <span class="acc-num">06</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Approval" data-ms="Kelulusan">Approval</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Approval Process" data-ms="Proses Kelulusan">Approval Process</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed space-y-3">
+        <p data-en="Applications are reviewed by the Domestic Shipping License Board (LPPDN). Processing period starts from the date complete documents are received." data-ms="Permohonan disemak oleh Lembaga Permit Perkapalan Dalam Negeri (LPPDN). Tempoh pemprosesan bermula dari tarikh dokumen lengkap diterima.">Applications are reviewed by the Domestic Shipping License Board (LPPDN). Processing period starts from the date complete documents are received.</p>
+        <div class="bg-white border border-slate-100 rounded-xl p-4 flex items-start gap-3 shadow-sm">
+          <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <p class="text-xs text-slate-500" data-en="Applicants will be notified via email upon approval. Ensure your registered email is kept up to date." data-ms="Pemohon akan dimaklumkan melalui e-mel setelah diluluskan. Pastikan e-mel berdaftar anda dikemaskini.">Applicants will be notified via email upon approval. Ensure your registered email is kept up to date.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7: Payment -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-7">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+        </svg>
+        <span class="acc-num">07</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-accent mb-0.5" data-en="Payment" data-ms="Bayaran">Payment</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Payment" data-ms="Pembayaran">Payment</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed space-y-3">
+        <p data-en="Payment is made online through the eDSL portal via FPX (online banking). Receipts can be printed immediately after successful payment." data-ms="Pembayaran dibuat secara dalam talian melalui portal eDSL melalui FPX (perbankan dalam talian). Resit boleh dicetak segera selepas pembayaran berjaya.">Payment is made online through the eDSL portal via FPX (online banking). Receipts can be printed immediately after successful payment.</p>
+        <div class="flex gap-2">
+          <span class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            FPX Online Banking
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            <span data-en="Instant Receipt" data-ms="Resit Segera">Instant Receipt</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8: Revocation -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-8">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        <span class="acc-num">08</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-0.5" data-en="Legal" data-ms="Undang-undang">Legal</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Revocation" data-ms="Pembatalan">Revocation</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed">
+        <div class="flex gap-3 bg-amber-50 border border-amber-100 rounded-xl p-4">
+          <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <p data-en="A DSL may be revoked by LPPDN if the licensee fails to comply with the conditions of the license or violates any provision of the Merchant Shipping Ordinance 1952." data-ms="DSL boleh dibatalkan oleh LPPDN jika pemegang lesen gagal mematuhi syarat-syarat lesen atau melanggar mana-mana peruntukan Ordinan Perkapalan Saudagar 1952.">A DSL may be revoked by LPPDN if the licensee fails to comply with the conditions of the license or violates any provision of the Merchant Shipping Ordinance 1952.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9: Terms and Conditions -->
+  <div class="acc-item rounded-2xl overflow-hidden shadow-sm border border-slate-200" id="acc-9">
+    <button onclick="toggleAcc(this)" class="acc-trigger">
+      <div class="acc-icon-strip">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+        <span class="acc-num">09</span>
+      </div>
+      <div class="flex-1 flex items-center justify-between px-5 py-4 min-h-[68px]">
+        <div>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-0.5" data-en="Legal" data-ms="Undang-undang">Legal</p>
+          <p class="font-semibold text-slate-800 text-sm" data-en="Terms and Conditions" data-ms="Terma dan Syarat">Terms and Conditions</p>
+        </div>
+        <span class="chevron text-accent ml-4 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </span>
+      </div>
+    </button>
+    <div class="acc-body">
+      <div class="acc-content px-7 py-5 text-sm text-slate-600 leading-relaxed">
+        <p data-en="By using the eDSL system, applicants agree to provide accurate information and comply with all conditions set by Jabatan Laut Malaysia and the Domestic Shipping License Board." data-ms="Dengan menggunakan sistem eDSL, pemohon bersetuju untuk memberikan maklumat yang tepat dan mematuhi semua syarat yang ditetapkan oleh Jabatan Laut Malaysia dan Lembaga Permit Perkapalan Dalam Negeri.">By using the eDSL system, applicants agree to provide accurate information and comply with all conditions set by Jabatan Laut Malaysia and the Domestic Shipping License Board.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FLOWCHART SECTION -->
+<div class="max-w-4xl mx-auto px-6 lg:px-10 pb-16" id="acc-10">
+  <p class="text-xs font-bold tracking-widest uppercase text-accent mb-4" data-en="Downloads" data-ms="Muat Turun">Downloads</p>
+  <h2 class="text-xl font-bold text-slate-800 mb-6" data-en="Application Flowcharts" data-ms="Carta Alir Permohonan">Application Flowcharts</h2>
+  <div class="grid md:grid-cols-2 gap-4">
+    <a href="/assets/documents/doc-17.pdf" target="_blank" class="flow-card p-6 flex items-start gap-5 group">
+      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition-colors">
+        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-accent/70 mb-1">10</p>
+        <p class="font-semibold text-white text-sm mb-1" data-en="Flowchart — Malaysian Registered Vessel" data-ms="Carta Alir — Kapal Berdaftar Malaysia">Flowchart — Malaysian Registered Vessel</p>
+        <p class="text-slate-400 text-xs" data-en="DSL Application process for Malaysian vessels" data-ms="Proses permohonan DSL untuk kapal Malaysia">DSL Application process for Malaysian vessels</p>
+        <span class="inline-flex items-center gap-1.5 mt-3 text-xs text-accent font-semibold group-hover:underline">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </span>
+      </div>
+    </a>
+
+    <a href="/assets/documents/doc-18.pdf" target="_blank" class="flow-card p-6 flex items-start gap-5 group">
+      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition-colors">
+        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <div class="flex-1">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-accent/70 mb-1">11</p>
+        <p class="font-semibold text-white text-sm mb-1" data-en="Flowchart — Foreign Registered Vessel" data-ms="Carta Alir — Kapal Berdaftar Asing">Flowchart — Foreign Registered Vessel</p>
+        <p class="text-slate-400 text-xs" data-en="DSL Application process for foreign vessels" data-ms="Proses permohonan DSL untuk kapal asing">DSL Application process for foreign vessels</p>
+        <span class="inline-flex items-center gap-1.5 mt-3 text-xs text-accent font-semibold group-hover:underline">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-navy px-6 lg:px-10 pt-14 pb-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-10">
+    <div>
+      <img src="/assets/images/edsl_logo.png" alt="eDSL" class="h-12 mb-4"/>
+      <p class="text-slate-500 text-sm leading-relaxed" data-en="e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License." data-ms="e-Lesen Perkapalan Dalam Negeri (eDSL) adalah sistem dalam talian untuk memohon Lesen Perkapalan Dalam Negeri.">e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License.</p>
+      <p class="text-slate-600 text-xs mt-3">Version: 2.2.0 (11.05.2019)</p>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</h4>
+      <div class="space-y-1 text-sm text-slate-500">
+        <p>Jabatan Laut Malaysia</p><p>Ibu Pejabat Laut, Menara Dius Api</p>
+        <p>PT 664, Jalan Limbungan, 42007 Pelabuhan Klang</p>
+        <a href="mailto:edsljlm@marine.gov.my" class="text-accent hover:underline block mt-2 text-sm">edsljlm@marine.gov.my</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Links" data-ms="Pautan">Links</h4>
+      <div class="space-y-2">
+        <a href="https://www.marine.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">Jabatan Laut Malaysia</a>
+        <a href="https://www.malaysia.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">MyGovernment</a>
+        <a href="/privacy-policy/" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Privacy Policy" data-ms="Dasar Privasi">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <!-- MAP -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3" data-en="Our Location" data-ms="Lokasi Kami">Our Location</h4>
+    <div class="rounded-2xl overflow-hidden border border-slate-700/60" style="height:220px;">
+      <iframe src="https://maps.google.com/maps?q=Jabatan+Laut+Malaysia+PT+664+Jalan+Limbungan+Pelabuhan+Klang&hl=en&z=14&output=embed" width="100%" height="220" style="border:0;" loading="lazy" allowfullscreen title="Jabatan Laut Malaysia"></iframe>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto border-t border-slate-800 pt-5 flex justify-between">
+    <p class="text-slate-600 text-xs" data-en="Copyright Reserved © 2019 Jabatan Laut Malaysia." data-ms="Hak Cipta Terpelihara © 2019 Jabatan Laut Malaysia.">Copyright Reserved © 2019 Jabatan Laut Malaysia.</p>
+    <p class="text-slate-600 text-xs">eDSL System v2.2.0</p>
+  </div>
+</footer>
+
+<script src="/assets/js/lang.js"></script>
+<script>
+function toggleAcc(btn) {
+  const item = btn.closest('.acc-item');
+  const body = btn.nextElementSibling;
+  const chevron = btn.querySelector('.chevron');
+  const isOpen = item.classList.contains('is-open');
+
+  // Close all
+  document.querySelectorAll('.acc-item.is-open').forEach(i => {
+    i.classList.remove('is-open');
+    i.querySelector('.acc-body').classList.remove('open');
+    i.querySelector('.chevron').classList.remove('open');
+  });
+
+  if (!isOpen) {
+    item.classList.add('is-open');
+    body.classList.add('open');
+    chevron.classList.add('open');
+  }
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

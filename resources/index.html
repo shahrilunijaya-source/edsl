@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Resources — eDSL</title>
+<link rel="icon" href="/assets/images/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0f172a', card: '#1e293b' },
+        accent: { DEFAULT: '#0ea5e9', dark: '#0284c7', light: '#e0f2fe', border: '#bae6fd' },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  @keyframes waveMove1 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  @keyframes waveMove2 { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+  @keyframes waveMove3 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  .wave1 { animation: waveMove1  9s linear infinite; }
+  .wave2 { animation: waveMove2 12s linear infinite; }
+  .wave3 { animation: waveMove3 15s linear infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .wave1, .wave2, .wave3 { animation-play-state: paused; }
+  }
+</style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-navy sticky top-0 z-50 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="/"><img src="/assets/images/logo.png" alt="eDSL" class="h-11"/></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Home" data-ms="Laman Utama">Home</a>
+      <a href="/user-guide/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      <a href="/resources/" class="text-white text-sm font-semibold px-3 py-2 rounded-lg" data-en="Resources" data-ms="Rujukan">Resources</a>
+      <a href="/vessel-services/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Vessel Procurement" data-ms="Tawaran Perkhidmatan Kapal">Vessel Procurement</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/register/" class="bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-1.5 text-sm font-semibold transition-colors" data-en="Sign In" data-ms="Log Masuk">Sign In</a>
+      <div class="flex items-center border border-slate-700 rounded-full overflow-hidden text-xs font-semibold">
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn text-white px-3 py-1.5 hover:bg-slate-800 transition-colors">EN</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="setLang('ms')" data-lang="ms" class="lang-btn text-slate-400 px-3 py-1.5 hover:bg-slate-800 transition-colors">BM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="relative overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#1e3a5f] px-6 lg:px-10 py-14">
+  <div class="max-w-7xl mx-auto">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-2" data-en="eDSL Portal" data-ms="Portal eDSL">eDSL Portal</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold text-white" data-en="Resources &amp; Downloads" data-ms="Rujukan &amp; Muat Turun">Resources &amp; Downloads</h1>
+    <p class="text-slate-400 mt-2 text-sm" data-en="Official documents, guidelines, and manuals for DSL applications." data-ms="Dokumen rasmi, garis panduan dan manual untuk permohonan DSL.">Official documents, guidelines, and manuals for DSL applications.</p>
+  </div>
+  <!-- WAVES -->
+  <div class="absolute bottom-0 left-0 w-full pointer-events-none overflow-hidden" style="height:50px">
+    <svg class="wave1 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.09)" d="M0,25 C200,45 400,5 600,25 C800,45 1000,5 1200,25 C1320,35 1400,20 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:6px;height:50px">
+    <svg class="wave2 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.06)" d="M0,15 C240,38 480,5 720,20 C960,35 1200,8 1440,22 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:12px;height:50px">
+    <svg class="wave3 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(30,58,95,0.5)" d="M0,35 C180,15 360,40 540,28 C720,15 900,38 1080,22 C1260,8 1380,30 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- DOWNLOADS GRID -->
+<div class="max-w-7xl mx-auto px-6 lg:px-10 py-12">
+  <div class="grid md:grid-cols-2 gap-6 fade-up">
+
+    <!-- Doc 1 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+      <div class="w-12 h-12 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-slate-800 text-sm mb-1" data-en="User Manual Web Ver 2.0 (Updated 05/11/2019)" data-ms="Manual Pengguna Web Ver 2.0 (Dikemaskini 05/11/2019)">User Manual Web Ver 2.0 (Updated 05/11/2019)</h3>
+        <p class="text-xs text-slate-400 mb-4" data-en="Complete guide for using the eDSL web portal." data-ms="Panduan lengkap untuk menggunakan portal web eDSL.">Complete guide for using the eDSL web portal.</p>
+        <a href="/assets/documents/doc-3.pdf" target="_blank" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-2 text-xs font-semibold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 2 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+      <div class="w-12 h-12 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-slate-800 text-sm mb-1" data-en="Provisional Guidelines on Local Vessel Availability Verification by MMD for DSL" data-ms="Garis Panduan Sementara Pengesahan Ketersediaan Kapal Tempatan oleh MMD untuk DSL">Provisional Guidelines on Local Vessel Availability Verification by MMD for DSL</h3>
+        <p class="text-xs text-slate-400 mb-4" data-en="Official MMD guidelines for vessel availability verification." data-ms="Garis panduan rasmi MMD untuk pengesahan ketersediaan kapal.">Official MMD guidelines for vessel availability verification.</p>
+        <a href="/assets/documents/doc-17.pdf" target="_blank" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-2 text-xs font-semibold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 3 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+      <div class="w-12 h-12 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-slate-800 text-sm mb-1" data-en="Frequently Asked Questions (FAQ)" data-ms="Soalan Lazim (FAQ)">Frequently Asked Questions (FAQ)</h3>
+        <p class="text-xs text-slate-400 mb-4" data-en="Common questions and answers about the DSL application process." data-ms="Soalan dan jawapan biasa tentang proses permohonan DSL.">Common questions and answers about the DSL application process.</p>
+        <a href="/assets/documents/doc-18.pdf" target="_blank" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-2 text-xs font-semibold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 4 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+      <div class="w-12 h-12 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-slate-800 text-sm mb-1" data-en="Guidelines on Application for Domestic Shipping License" data-ms="Garis Panduan Permohonan Lesen Perkapalan Dalam Negeri">Guidelines on Application for Domestic Shipping License</h3>
+        <p class="text-xs text-slate-400 mb-4" data-en="Comprehensive guidelines for DSL applicants." data-ms="Garis panduan komprehensif untuk pemohon DSL.">Comprehensive guidelines for DSL applicants.</p>
+        <a href="/assets/documents/doc-19.pdf" target="_blank" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-2 text-xs font-semibold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 5 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow md:col-span-2">
+      <div class="w-12 h-12 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-semibold text-slate-800 text-sm mb-1">Pemakluman Notis Lesen Perkapalan Dalam Negeri (DSL)</h3>
+        <p class="text-xs text-slate-400 mb-4" data-en="Official notice regarding Domestic Shipping License." data-ms="Notis rasmi berkenaan Lesen Perkapalan Dalam Negeri.">Official notice regarding Domestic Shipping License.</p>
+        <a href="/assets/documents/doc-25.pdf" target="_blank" class="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-2 text-xs font-semibold transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span data-en="Download PDF" data-ms="Muat Turun PDF">Download PDF</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-navy px-6 lg:px-10 pt-14 pb-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-10">
+    <div>
+      <img src="/assets/images/edsl_logo.png" alt="eDSL" class="h-12 mb-4"/>
+      <p class="text-slate-500 text-sm leading-relaxed" data-en="e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License." data-ms="e-Lesen Perkapalan Dalam Negeri (eDSL) adalah sistem dalam talian untuk memohon Lesen Perkapalan Dalam Negeri.">e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License.</p>
+      <p class="text-slate-600 text-xs mt-3">Version: 2.2.0 (11.05.2019)</p>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</h4>
+      <div class="space-y-1 text-sm text-slate-500">
+        <p>Jabatan Laut Malaysia</p><p>Ibu Pejabat Laut, Menara Dius Api</p>
+        <p>PT 664, Jalan Limbungan, 42007 Pelabuhan Klang</p>
+        <a href="mailto:edsljlm@marine.gov.my" class="text-accent hover:underline block mt-2 text-sm">edsljlm@marine.gov.my</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Links" data-ms="Pautan">Links</h4>
+      <div class="space-y-2">
+        <a href="https://www.marine.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">Jabatan Laut Malaysia</a>
+        <a href="https://www.malaysia.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">MyGovernment</a>
+        <a href="/privacy-policy/" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Privacy Policy" data-ms="Dasar Privasi">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <!-- MAP -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3" data-en="Our Location" data-ms="Lokasi Kami">Our Location</h4>
+    <div class="rounded-2xl overflow-hidden border border-slate-700/60" style="height:220px;">
+      <iframe src="https://maps.google.com/maps?q=Jabatan+Laut+Malaysia+PT+664+Jalan+Limbungan+Pelabuhan+Klang&hl=en&z=14&output=embed" width="100%" height="220" style="border:0;" loading="lazy" allowfullscreen title="Jabatan Laut Malaysia"></iframe>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto border-t border-slate-800 pt-5 flex justify-between">
+    <p class="text-slate-600 text-xs" data-en="Copyright Reserved © 2019 Jabatan Laut Malaysia." data-ms="Hak Cipta Terpelihara © 2019 Jabatan Laut Malaysia.">Copyright Reserved © 2019 Jabatan Laut Malaysia.</p>
+    <p class="text-slate-600 text-xs">eDSL System v2.2.0</p>
+  </div>
+</footer>
+
+<script src="/assets/js/lang.js"></script>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

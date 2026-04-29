@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>eDSL — e-Domestic Shipping License</title>
+<link rel="icon" href="/assets/images/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0f172a', card: '#1e293b', strip: '#0c1a2e' },
+        accent: { DEFAULT: '#0ea5e9', dark: '#0284c7', light: '#e0f2fe', border: '#bae6fd' },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .accordion-content.open { max-height: 2000px; }
+  .chevron { transition: transform 0.3s ease; }
+  .chevron.open { transform: rotate(180deg); }
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .step-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .step-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px -8px rgba(14,165,233,0.18), 0 2px 8px -2px rgba(0,0,0,0.08);
+    border-color: #bae6fd;
+    background-color: #fff;
+  }
+  .step-card .step-icon {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .step-card:hover .step-icon {
+    transform: scale(1.1) rotate(-4deg);
+    box-shadow: 0 4px 12px rgba(14,165,233,0.35);
+  }
+</style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-navy sticky top-0 z-50 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="/"><img src="/assets/images/logo.png" alt="eDSL" class="h-11"/></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="/" class="text-white text-sm font-semibold px-3 py-2 rounded-lg" data-en="Home" data-ms="Laman Utama">Home</a>
+      <a href="/user-guide/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      <a href="/resources/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Resources" data-ms="Rujukan">Resources</a>
+      <a href="/vessel-services/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Vessel Procurement" data-ms="Tawaran Perkhidmatan Kapal">Vessel Procurement</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/register/" class="bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-1.5 text-sm font-semibold transition-colors" data-en="Sign In" data-ms="Log Masuk">Sign In</a>
+      <div class="flex items-center border border-slate-700 rounded-full overflow-hidden text-xs font-semibold">
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn text-white px-3 py-1.5 hover:bg-slate-800 transition-colors">EN</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="setLang('ms')" data-lang="ms" class="lang-btn text-slate-400 px-3 py-1.5 hover:bg-slate-800 transition-colors">BM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#1e3a5f] px-6 lg:px-10 py-20">
+  <canvas id="wave-bg" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;"></canvas>
+  <div class="relative z-10 max-w-7xl mx-auto flex items-center justify-between gap-10">
+    <div class="max-w-xl fade-up">
+      <p class="text-xs font-bold tracking-widest uppercase text-accent mb-3" data-en="Jabatan Laut Malaysia" data-ms="Jabatan Laut Malaysia">Jabatan Laut Malaysia</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4">
+        <span data-en="e-Domestic" data-ms="e-Dalam Negeri">e-Domestic</span><br/>
+        <span class="text-accent" data-en="Shipping License" data-ms="Lesen Perkapalan">Shipping License</span>
+      </h1>
+      <p class="text-slate-400 text-base font-light leading-relaxed mb-8" data-en="A comprehensive online end-to-end system for Domestic Shipping License (DSL) applications. Apply, pay, and print your license — fully digital." data-ms="Sistem dalam talian hujung-ke-hujung yang komprehensif untuk permohonan Lesen Perkapalan Dalam Negeri (DSL). Mohon, bayar dan cetak lesen anda — sepenuhnya digital.">A comprehensive online end-to-end system for Domestic Shipping License (DSL) applications. Apply, pay, and print your license — fully digital.</p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/register/" class="bg-accent hover:bg-accent-dark text-white rounded-full px-6 py-3 text-sm font-semibold transition-colors" data-en="Register Now" data-ms="Daftar Sekarang">Register Now</a>
+        <a href="/user-guide/" class="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white rounded-full px-6 py-3 text-sm font-medium transition-colors" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      </div>
+    </div>
+    <img src="/assets/images/edsl_logo.png" alt="" class="hidden lg:block h-44 opacity-10 flex-shrink-0"/>
+  </div>
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="bg-[#0c1a2e] border-y border-slate-800 px-6 lg:px-10 py-3">
+  <div class="max-w-7xl mx-auto flex flex-wrap items-center gap-x-8 gap-y-1">
+    <span class="text-slate-500 text-xs font-semibold uppercase tracking-wider" data-en="DSL Enquiries:" data-ms="Pertanyaan DSL:">DSL Enquiries:</span>
+    <span class="text-slate-400 text-xs"><span class="text-slate-300 font-medium">En. Nasrol / Pn. Afierah</span> — 03-31629935</span>
+    <span class="text-slate-400 text-xs"><span class="text-slate-300 font-medium">Pn. Nursyafiqah / En. Mohd Syafiq</span> — 03-31629940</span>
+    <span class="text-slate-400 text-xs"><span class="text-slate-300 font-medium">Pn. Nor Afizatul Anisha</span> — 03-31629938</span>
+    <a href="mailto:edsljlm@marine.gov.my" class="text-accent text-xs hover:underline">edsljlm@marine.gov.my</a>
+  </div>
+</div>
+
+<!-- MAIN: NOTICES + SIGN IN -->
+<div class="max-w-7xl mx-auto px-6 lg:px-10 py-10 grid md:grid-cols-[1fr_340px] gap-8">
+
+  <!-- NOTICES -->
+  <div class="fade-up">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-5" data-en="Notices" data-ms="Notis">Notices</p>
+
+    <!-- Info box -->
+    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4">
+      <p class="text-amber-800 text-sm font-semibold mb-2">INFO PENTING!</p>
+      <ul class="text-amber-700 text-sm space-y-1 list-disc list-inside">
+        <li data-en="DSL License Fee is based on Nett Tonnage of Vessel" data-ms="Fi Lesen DSL adalah berdasarkan Nett Tonnage Kapal">DSL License Fee is based on Nett Tonnage of Vessel</li>
+        <li data-en="No other fees are charged" data-ms="TIADA Fi lain yang dikenakan">No other fees are charged</li>
+        <li data-en="DSL Application processing period starts from the date complete documents are received" data-ms="Tempoh proses permohonan DSL bermula dari tarikh dokumen lengkap diterima">DSL Application processing period starts from the date complete documents are received</li>
+      </ul>
+    </div>
+
+    <!-- Notice 1 -->
+    <div class="bg-white border-l-4 border-accent border border-slate-200 rounded-2xl p-5 mb-4 shadow-sm">
+      <p class="text-xs text-slate-400 font-medium mb-1">29 JUNE 2022</p>
+      <h3 class="text-base font-semibold text-slate-800 mb-2" data-en="Ship Clearance System (SCS) URL Updated" data-ms="URL Sistem Pelepasan Kapal (SCS) Dikemaskini">Ship Clearance System (SCS) URL Updated</h3>
+      <p class="text-sm text-slate-500 leading-relaxed" data-en="The URL for Ship Clearance System (SCS) has been updated to:" data-ms="URL untuk Sistem Pelepasan Kapal (SCS) telah dikemaskini kepada:">The URL for Ship Clearance System (SCS) has been updated to:</p>
+      <a href="http://marine22.marine.gov.my/scsagent" class="text-accent text-sm font-medium mt-1 inline-block hover:underline">http://marine22.marine.gov.my/scsagent</a>
+    </div>
+
+    <!-- Notice 2 -->
+    <div class="bg-white border-l-4 border-accent border border-slate-200 rounded-2xl p-5 mb-4 shadow-sm">
+      <p class="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wide" data-en="Important Notice" data-ms="Notis Penting">Important Notice</p>
+      <h3 class="text-base font-semibold text-slate-800 mb-3" data-en="Attention to New Applicants" data-ms="Perhatian kepada Pemohon Baru">Attention to New Applicants</h3>
+      <div class="space-y-3 text-sm text-slate-600 leading-relaxed">
+        <p><span class="font-semibold text-slate-700" data-en="1. Malaysian ship owners:" data-ms="1. Pemilik kapal Malaysia:">1. Malaysian ship owners:</span> <span data-en="Must update company profile in the Ship Registration Module (MMDIS). Access via:" data-ms="Wajib mengemaskini profil syarikat dalam Modul Pendaftaran Kapal (MMDIS). Akses melalui:">Must update company profile in the Ship Registration Module (MMDIS). Access via:</span> <a href="https://mmdis.marine.gov.my" class="text-accent hover:underline">MMDIS</a></p>
+        <p><span class="font-semibold text-slate-700" data-en="2. Foreign Vessel agents:" data-ms="2. Ejen kapal asing:">2. Foreign Vessel agents:</span> <span data-en="Must register or update SSM Certificate and email address via Ship Clearance System (SCS)." data-ms="Wajib mendaftar atau mengemaskini Sijil SSM dan alamat e-mel melalui Sistem Pelepasan Kapal (SCS).">Must register or update SSM Certificate and email address via Ship Clearance System (SCS).</span></p>
+        <p class="text-slate-500 text-xs pt-1 border-t border-slate-100" data-en="★ User ID and temporary password will be auto-generated by the eDSL system. JLM does not provide User ID / temporary passwords manually." data-ms="★ ID pengguna dan kata laluan sementara akan dijana secara automatik oleh sistem eDSL. JLM tidak menyediakan ID pengguna / kata laluan sementara secara manual.">★ User ID and temporary password will be auto-generated by the eDSL system. JLM does not provide User ID / temporary passwords manually.</p>
+      </div>
+    </div>
+
+    <!-- Notice 3 -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      <p class="text-xs text-slate-400 font-medium mb-1 uppercase tracking-wide" data-en="System Info" data-ms="Maklumat Sistem">System Info</p>
+      <h3 class="text-base font-semibold text-slate-800 mb-2" data-en="About the New eDSL System" data-ms="Mengenai Sistem eDSL Baharu">About the New eDSL System</h3>
+      <p class="text-sm text-slate-500 leading-relaxed" data-en="The new eDSL system (launched 1 November 2019) is a MOT Malaysia initiative to develop a comprehensive online end-to-end DSL application system. Applicants can now complete their application, payment, and print licenses fully online." data-ms="Sistem eDSL baharu (dilancarkan 1 November 2019) merupakan inisiatif KPM Malaysia untuk membangunkan sistem permohonan DSL dalam talian hujung-ke-hujung yang komprehensif. Pemohon kini boleh melengkapkan permohonan, pembayaran dan mencetak lesen sepenuhnya dalam talian.">The new eDSL system (launched 1 November 2019) is a MOT Malaysia initiative to develop a comprehensive online end-to-end DSL application system. Applicants can now complete their application, payment, and print licenses fully online.</p>
+    </div>
+  </div>
+
+  <!-- SIGN IN -->
+  <div class="fade-up">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-5" data-en="Sign In" data-ms="Log Masuk">Sign In</p>
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-md p-6 mb-4">
+      <h3 class="text-lg font-bold text-slate-800 mb-5" data-en="Log In to eDSL" data-ms="Log Masuk ke eDSL">Log In to eDSL</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1.5" data-en="User ID" data-ms="ID Pengguna">User ID</label>
+          <input type="text" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-accent transition-colors" data-en-placeholder="Enter your User ID" data-ms-placeholder="Masukkan ID Pengguna anda" placeholder="Enter your User ID"/>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1.5" data-en="Password" data-ms="Kata Laluan">Password</label>
+          <input type="password" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-accent transition-colors" data-en-placeholder="Enter your password" data-ms-placeholder="Masukkan kata laluan anda" placeholder="Enter your password"/>
+        </div>
+        <button class="w-full bg-accent hover:bg-accent-dark text-white rounded-lg py-3 text-sm font-semibold transition-colors" data-en="Log In" data-ms="Log Masuk">Log In</button>
+      </div>
+      <div class="mt-4 space-y-2 text-center">
+        <a href="#" class="block text-xs text-accent hover:underline" data-en="Forgot password? Click to reset" data-ms="Lupa kata laluan? Klik untuk tetapkan semula">Forgot password? Click to reset</a>
+        <a href="/register/" class="block text-xs text-accent hover:underline" data-en="Not registered? Click here to register" data-ms="Belum berdaftar? Klik di sini untuk mendaftar">Not registered? Click here to register</a>
+      </div>
+    </div>
+
+    <!-- Registration notice -->
+    <div class="bg-accent-light border border-accent-border rounded-2xl p-4">
+      <p class="text-xs font-bold text-sky-800 mb-2" data-en="New Registration" data-ms="Pendaftaran Baharu">New Registration</p>
+      <p class="text-xs text-sky-700 leading-relaxed mb-3" data-en="Before applying for a DSL, you must first complete your registration. Follow these simple steps:" data-ms="Sebelum memohon DSL, anda perlu melengkapkan pendaftaran terlebih dahulu. Ikuti langkah mudah ini:">Before applying for a DSL, you must first complete your registration. Follow these simple steps:</p>
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0">1</span>
+          <span class="text-xs text-sky-700" data-en="Select Registration Type" data-ms="Pilih Jenis Pendaftaran">Select Registration Type</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0">2</span>
+          <span class="text-xs text-sky-700" data-en="Enter Username" data-ms="Masukkan Nama Pengguna">Enter Username</span>
+        </div>
+      </div>
+      <p class="text-xs text-sky-600 mt-3 pt-3 border-t border-sky-200" data-en="Your temporary password will be sent to your registered email." data-ms="Kata laluan sementara anda akan dihantar ke e-mel berdaftar anda.">Your temporary password will be sent to your registered email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW TO APPLY -->
+<section class="bg-white border-t border-slate-200 px-6 lg:px-10 py-16">
+  <div class="max-w-7xl mx-auto fade-up">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-3" data-en="Getting Started" data-ms="Memulakan">Getting Started</p>
+    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2" data-en="How to Apply for a DSL" data-ms="Cara Memohon DSL">How to Apply for a DSL</h2>
+    <p class="text-slate-500 text-sm mb-10" data-en="Follow these steps to apply for your Domestic Shipping License online." data-ms="Ikuti langkah-langkah ini untuk memohon Lesen Perkapalan Dalam Negeri anda secara dalam talian.">Follow these steps to apply for your Domestic Shipping License online.</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="step-card group bg-slate-50 border border-slate-200 rounded-2xl p-6 cursor-default">
+        <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-white font-extrabold text-lg mb-4 step-icon">1</div>
+        <h4 class="font-semibold text-slate-800 mb-2" data-en="Register an Account" data-ms="Daftar Akaun">Register an Account</h4>
+        <p class="text-sm text-slate-500 leading-relaxed" data-en="Update your email with Jabatan Laut Malaysia first. Then register using your Company Registration No. or IC No." data-ms="Kemaskini e-mel anda dengan Jabatan Laut Malaysia terlebih dahulu. Kemudian daftar menggunakan No. Pendaftaran Syarikat atau No. IC.">Update your email with Jabatan Laut Malaysia first. Then register using your Company Registration No. or IC No.</p>
+      </div>
+      <div class="step-card group bg-slate-50 border border-slate-200 rounded-2xl p-6 cursor-default">
+        <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-white font-extrabold text-lg mb-4 step-icon">2</div>
+        <h4 class="font-semibold text-slate-800 mb-2" data-en="Complete Your Application" data-ms="Lengkapkan Permohonan">Complete Your Application</h4>
+        <p class="text-sm text-slate-500 leading-relaxed" data-en="Submit your DSL application with all required supporting documents for your vessel type." data-ms="Hantar permohonan DSL anda bersama semua dokumen sokongan yang diperlukan untuk jenis kapal anda.">Submit your DSL application with all required supporting documents for your vessel type.</p>
+      </div>
+      <div class="step-card group bg-slate-50 border border-slate-200 rounded-2xl p-6 cursor-default">
+        <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-white font-extrabold text-lg mb-4 step-icon">3</div>
+        <h4 class="font-semibold text-slate-800 mb-2" data-en="Pay &amp; Print License" data-ms="Bayar &amp; Cetak Lesen">Pay &amp; Print License</h4>
+        <p class="text-sm text-slate-500 leading-relaxed" data-en="Complete payment online based on Nett Tonnage of Vessel and print your license receipt immediately." data-ms="Lengkapkan pembayaran dalam talian berdasarkan Nett Tonnage Kapal dan cetak resit lesen anda dengan segera.">Complete payment online based on Nett Tonnage of Vessel and print your license receipt immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-navy px-6 lg:px-10 pt-14 pb-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-10">
+    <div>
+      <img src="/assets/images/edsl_logo.png" alt="eDSL" class="h-12 mb-4"/>
+      <p class="text-slate-500 text-sm leading-relaxed" data-en="e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License." data-ms="e-Lesen Perkapalan Dalam Negeri (eDSL) adalah sistem dalam talian untuk memohon Lesen Perkapalan Dalam Negeri.">e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License.</p>
+      <p class="text-slate-600 text-xs mt-3">Version: 2.2.0 (11.05.2019)</p>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</h4>
+      <div class="space-y-1 text-sm text-slate-500">
+        <p>Jabatan Laut Malaysia</p>
+        <p>Ibu Pejabat Laut, Menara Dius Api</p>
+        <p>PT 664, Jalan Limbungan</p>
+        <p>42007 Pelabuhan Klang</p>
+        <a href="mailto:edsljlm@marine.gov.my" class="text-accent hover:underline block mt-2 text-sm">edsljlm@marine.gov.my</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Links" data-ms="Pautan">Links</h4>
+      <div class="space-y-2">
+        <a href="https://www.marine.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Jabatan Laut Malaysia" data-ms="Jabatan Laut Malaysia">Jabatan Laut Malaysia</a>
+        <a href="https://www.malaysia.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">MyGovernment</a>
+        <a href="/privacy-policy/" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Privacy Policy" data-ms="Dasar Privasi">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <!-- MAP -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3" data-en="Our Location" data-ms="Lokasi Kami">Our Location</h4>
+    <div class="rounded-2xl overflow-hidden border border-slate-700/60" style="height:220px;">
+      <iframe src="https://maps.google.com/maps?q=Jabatan+Laut+Malaysia+PT+664+Jalan+Limbungan+Pelabuhan+Klang&hl=en&z=14&output=embed" width="100%" height="220" style="border:0;" loading="lazy" allowfullscreen title="Jabatan Laut Malaysia"></iframe>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto border-t border-slate-800 pt-5 flex justify-between">
+    <p class="text-slate-600 text-xs" data-en="Copyright Reserved © 2019 Jabatan Laut Malaysia." data-ms="Hak Cipta Terpelihara © 2019 Jabatan Laut Malaysia.">Copyright Reserved © 2019 Jabatan Laut Malaysia.</p>
+    <p class="text-slate-600 text-xs">eDSL System v2.2.0</p>
+  </div>
+</footer>
+
+<script src="/assets/js/lang.js"></script>
+<script>
+(function () {
+  var vsSource = "attribute vec4 aVertexPosition;void main(){gl_Position=aVertexPosition;}";
+  var fsSource = `
+    precision highp float;
+    uniform vec2 iResolution;
+    uniform float iTime;
+
+    const float overallSpeed    = 0.2;
+    const float gridSmoothWidth = 0.015;
+    const float axisWidth       = 0.05;
+    const float majorLineWidth  = 0.025;
+    const float minorLineWidth  = 0.0125;
+    const float majorLineFreq   = 5.0;
+    const float minorLineFreq   = 1.0;
+    const float scale           = 5.0;
+    const vec4  lineColor       = vec4(0.04, 0.45, 0.65, 1.0); /* dimmed sky-blue */
+    const float minLineWidth    = 0.005;
+    const float maxLineWidth    = 0.08;
+    const float lineSpeed       = 1.0  * overallSpeed;
+    const float lineAmplitude   = 1.0;
+    const float lineFrequency   = 0.2;
+    const float warpSpeed       = 0.2  * overallSpeed;
+    const float warpFrequency   = 0.5;
+    const float warpAmplitude   = 0.4;
+    const float offsetFrequency = 0.5;
+    const float offsetSpeed     = 1.33 * overallSpeed;
+    const float minOffsetSpread = 0.6;
+    const float maxOffsetSpread = 2.0;
+    const int   linesPerGroup   = 9;
+
+    #define drawCircle(pos,radius,coord) smoothstep(radius+gridSmoothWidth,radius,length(coord-(pos)))
+    #define drawSmoothLine(pos,hw,t)     smoothstep(hw,0.0,abs(pos-(t)))
+    #define drawCrispLine(pos,hw,t)      smoothstep(hw+gridSmoothWidth,hw,abs(pos-(t)))
+    #define drawPeriodicLine(freq,w,t)   drawCrispLine(freq/2.0,w,abs(mod(t,freq)-(freq)/2.0))
+
+    float random(float t){return(cos(t)+cos(t*1.3+1.3)+cos(t*1.4+1.4))/3.0;}
+
+    float getPlasmaY(float x,float hf,float off){
+      return random(x*lineFrequency+iTime*lineSpeed)*hf*lineAmplitude+off;
+    }
+
+    void main(){
+      vec2 uv    = gl_FragCoord.xy/iResolution.xy;
+      vec2 space = (gl_FragCoord.xy-iResolution.xy/2.0)/iResolution.x*2.0*scale;
+
+      float hFade = 1.0-(cos(uv.x*6.28)*0.5+0.5);
+      float vFade = 1.0-(cos(uv.y*6.28)*0.5+0.5);
+
+      space.y += random(space.x*warpFrequency+iTime*warpSpeed)*warpAmplitude*(0.5+hFade);
+      space.x += random(space.y*warpFrequency+iTime*warpSpeed+2.0)*warpAmplitude*hFade;
+
+      vec4 lines    = vec4(0.0);
+      vec4 bgColor1 = vec4(0.06, 0.09, 0.16, 1.0); /* #0f172a navy */
+      vec4 bgColor2 = vec4(0.12, 0.23, 0.37, 1.0); /* #1e3a5f navy-blue */
+
+      for(int l=0;l<linesPerGroup;l++){
+        float nl   = float(l)/float(linesPerGroup);
+        float ot   = iTime*offsetSpeed;
+        float op   = float(l)+space.x*offsetFrequency;
+        float rand = random(op+ot)*0.5+0.5;
+        float hw   = mix(minLineWidth,maxLineWidth,rand*hFade)/2.0;
+        float off  = random(op+ot*(1.0+nl))*mix(minOffsetSpread,maxOffsetSpread,hFade);
+        float lp   = getPlasmaY(space.x,hFade,off);
+        float line = drawSmoothLine(lp,hw,space.y)/2.0+drawCrispLine(lp,hw*0.15,space.y);
+        float cx   = mod(float(l)+iTime*lineSpeed,25.0)-12.0;
+        vec2  cp   = vec2(cx,getPlasmaY(cx,hFade,off));
+        line += drawCircle(cp,0.008,space)*1.5;
+        lines += line*lineColor*rand;
+      }
+
+      vec4 col = mix(bgColor1,bgColor2,uv.x);
+      col *= vFade; col.a = 1.0; col += lines * 0.45;
+      gl_FragColor = col;
+    }
+  `;
+
+  function loadShader(gl,type,src){
+    var s=gl.createShader(type);
+    gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){gl.deleteShader(s);return null;}
+    return s;
+  }
+
+  var canvas=document.getElementById('wave-bg');
+  var gl=canvas.getContext('webgl',{antialias:true});
+  if(!gl)return;
+
+  var vs=loadShader(gl,gl.VERTEX_SHADER,vsSource);
+  var fs=loadShader(gl,gl.FRAGMENT_SHADER,fsSource);
+  var prog=gl.createProgram();
+  gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+
+  var buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+
+  var aPos =gl.getAttribLocation(prog,'aVertexPosition');
+  var uRes =gl.getUniformLocation(prog,'iResolution');
+  var uTime=gl.getUniformLocation(prog,'iTime');
+
+  function resize(){
+    var p=canvas.parentElement;
+    var dpr=Math.min(devicePixelRatio||1,2);
+    canvas.width =Math.floor(p.clientWidth *dpr);
+    canvas.height=Math.floor(p.clientHeight*dpr);
+    canvas.style.width =p.clientWidth +'px';
+    canvas.style.height=p.clientHeight+'px';
+    gl.viewport(0,0,canvas.width,canvas.height);
+  }
+  window.addEventListener('resize',resize);
+  if('ResizeObserver'in window){new ResizeObserver(resize).observe(canvas.parentElement);}
+  resize();
+
+  var t0=performance.now();
+  (function render(){
+    var t=(performance.now()-t0)/1000;
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(prog);
+    gl.uniform2f(uRes,canvas.width,canvas.height);
+    gl.uniform1f(uTime,t);
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+    gl.enableVertexAttribArray(aPos);
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    requestAnimationFrame(render);
+  })();
+})();
+</script>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

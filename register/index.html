@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Register — eDSL</title>
+<link rel="icon" href="/assets/images/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0f172a', card: '#1e293b' },
+        accent: { DEFAULT: '#0ea5e9', dark: '#0284c7', light: '#e0f2fe', border: '#bae6fd' },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  @keyframes waveMove1 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  @keyframes waveMove2 { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+  @keyframes waveMove3 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  .wave1 { animation: waveMove1  9s linear infinite; }
+  .wave2 { animation: waveMove2 12s linear infinite; }
+  .wave3 { animation: waveMove3 15s linear infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .wave1, .wave2, .wave3 { animation-play-state: paused; }
+  }
+</style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-navy sticky top-0 z-50 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="/"><img src="/assets/images/logo.png" alt="eDSL" class="h-11"/></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Home" data-ms="Laman Utama">Home</a>
+      <a href="/user-guide/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      <a href="/resources/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Resources" data-ms="Rujukan">Resources</a>
+      <a href="/vessel-services/" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Vessel Procurement" data-ms="Tawaran Perkhidmatan Kapal">Vessel Procurement</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/" class="bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-1.5 text-sm font-semibold transition-colors" data-en="Sign In" data-ms="Log Masuk">Sign In</a>
+      <div class="flex items-center border border-slate-700 rounded-full overflow-hidden text-xs font-semibold">
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn text-white px-3 py-1.5 hover:bg-slate-800 transition-colors">EN</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="setLang('ms')" data-lang="ms" class="lang-btn text-slate-400 px-3 py-1.5 hover:bg-slate-800 transition-colors">BM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="relative overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#1e3a5f] px-6 lg:px-10 py-14">
+  <div class="max-w-7xl mx-auto">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-2" data-en="eDSL Portal" data-ms="Portal eDSL">eDSL Portal</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold text-white" data-en="New Account Registration" data-ms="Pendaftaran Akaun Baharu">New Account Registration</h1>
+    <p class="text-slate-400 mt-2 text-sm" data-en="Register to start applying for your Domestic Shipping License." data-ms="Daftar untuk mula memohon Lesen Perkapalan Dalam Negeri anda.">Register to start applying for your Domestic Shipping License.</p>
+  </div>
+  <!-- WAVES -->
+  <div class="absolute bottom-0 left-0 w-full pointer-events-none overflow-hidden" style="height:50px">
+    <svg class="wave1 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.09)" d="M0,25 C200,45 400,5 600,25 C800,45 1000,5 1200,25 C1320,35 1400,20 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:6px;height:50px">
+    <svg class="wave2 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.06)" d="M0,15 C240,38 480,5 720,20 C960,35 1200,8 1440,22 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:12px;height:50px">
+    <svg class="wave3 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(30,58,95,0.5)" d="M0,35 C180,15 360,40 540,28 C720,15 900,38 1080,22 C1260,8 1380,30 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-3xl mx-auto px-6 py-12">
+
+  <!-- PREREQUISITE NOTICE -->
+  <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-8">
+    <p class="text-amber-800 font-semibold text-sm mb-2" data-en="⚠ Before You Register" data-ms="⚠ Sebelum Anda Mendaftar">⚠ Before You Register</p>
+    <p class="text-amber-700 text-sm leading-relaxed" data-en="Please update your email address with Jabatan Laut Malaysia before registering. Contact your nearest registry office below." data-ms="Sila kemaskini alamat e-mel anda dengan Jabatan Laut Malaysia sebelum mendaftar. Hubungi pejabat pendaftar berdekatan anda di bawah.">Please update your email address with Jabatan Laut Malaysia before registering. Contact your nearest registry office below.</p>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div class="flex items-center gap-4 mb-8">
+    <div class="flex items-center gap-2">
+      <div id="step1-indicator" class="w-8 h-8 rounded-full bg-accent text-white text-sm font-bold flex items-center justify-center">1</div>
+      <span class="text-sm font-semibold text-slate-700" data-en="Select Type" data-ms="Pilih Jenis">Select Type</span>
+    </div>
+    <div class="flex-1 h-0.5 bg-slate-200" id="step-line"></div>
+    <div class="flex items-center gap-2">
+      <div id="step2-indicator" class="w-8 h-8 rounded-full bg-slate-200 text-slate-500 text-sm font-bold flex items-center justify-center">2</div>
+      <span class="text-sm font-medium text-slate-400" id="step2-label" data-en="Enter Username" data-ms="Masukkan Nama Pengguna">Enter Username</span>
+    </div>
+  </div>
+
+  <!-- REGISTRATION CARD -->
+  <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-8 mb-8">
+
+    <!-- STEP 1 -->
+    <div id="step1">
+      <h3 class="text-lg font-bold text-slate-800 mb-2" data-en="Step 1 — Select Registration Type" data-ms="Langkah 1 — Pilih Jenis Pendaftaran">Step 1 — Select Registration Type</h3>
+      <p class="text-sm text-slate-500 mb-6" data-en="Choose whether you are registering as a company or an individual." data-ms="Pilih sama ada anda mendaftar sebagai syarikat atau individu.">Choose whether you are registering as a company or an individual.</p>
+      <div class="mb-6">
+        <label class="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2" data-en="Registration Type" data-ms="Jenis Pendaftaran">Registration Type</label>
+        <select id="jenisDaftar" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-accent transition-colors">
+          <option value="0" data-en="Please select" data-ms="Sila pilih">Please select</option>
+          <option value="101" data-en="Company Registration No." data-ms="No. Pendaftaran Syarikat">Company Registration No.</option>
+          <option value="102" data-en="IC No. (Individual)" data-ms="No. IC (Individu)">IC No. (Individual)</option>
+        </select>
+      </div>
+      <button onclick="goToStep2()" class="w-full bg-accent hover:bg-accent-dark text-white rounded-lg py-3 text-sm font-semibold transition-colors" data-en="Next →" data-ms="Seterusnya →">Next →</button>
+    </div>
+
+    <!-- STEP 2 (hidden initially) -->
+    <div id="step2" class="hidden">
+      <h3 class="text-lg font-bold text-slate-800 mb-2" data-en="Step 2 — Enter Your Details" data-ms="Langkah 2 — Masukkan Butiran Anda">Step 2 — Enter Your Details</h3>
+      <p class="text-sm text-slate-500 mb-6" data-en="Enter your Company Registration No. or IC No. to create your username." data-ms="Masukkan No. Pendaftaran Syarikat atau No. IC anda untuk mencipta nama pengguna.">Enter your Company Registration No. or IC No. to create your username.</p>
+      <div class="mb-6">
+        <label id="step2-input-label" class="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2" data-en="Registration Number / IC No." data-ms="Nombor Pendaftaran / No. IC">Registration Number / IC No.</label>
+        <input type="text" id="maklumatJenisDaftar" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-accent transition-colors" data-en-placeholder="Enter your registration number or IC no." data-ms-placeholder="Masukkan nombor pendaftaran atau no. IC anda" placeholder="Enter your registration number or IC no."/>
+      </div>
+      <div class="bg-accent-light border border-accent-border rounded-xl p-4 mb-6">
+        <p class="text-xs text-sky-700 leading-relaxed" data-en="Your temporary password will be sent to your email address registered with Jabatan Laut Malaysia." data-ms="Kata laluan sementara anda akan dihantar ke alamat e-mel yang didaftarkan dengan Jabatan Laut Malaysia.">Your temporary password will be sent to your email address registered with Jabatan Laut Malaysia.</p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="goToStep1()" class="flex-1 border border-slate-200 hover:border-slate-400 text-slate-600 rounded-lg py-3 text-sm font-medium transition-colors" data-en="← Back" data-ms="← Kembali">← Back</button>
+        <button class="flex-2 flex-grow bg-accent hover:bg-accent-dark text-white rounded-lg py-3 text-sm font-semibold transition-colors" data-en="Register Account" data-ms="Daftar Akaun">Register Account</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REGISTRY OFFICES -->
+  <div class="bg-white border border-slate-200 rounded-2xl p-6">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-4" data-en="Registry Offices — Update Your Email / Local Vessel Info" data-ms="Pejabat Pendaftar — Kemaskini E-mel / Maklumat Kapal Tempatan">Registry Offices — Update Your Email / Local Vessel Info</p>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-slate-50 rounded-xl p-4">
+        <p class="font-semibold text-slate-700 text-sm mb-2" data-en="Penang Registry" data-ms="Pendaftar Pulau Pinang">Penang Registry</p>
+        <p class="text-xs text-slate-500 mb-1">04-6578494</p>
+        <p class="text-xs text-slate-400">En. Mohd Fadzil bin Mohd Azmi</p>
+        <p class="text-xs text-slate-400">En. Muhammad Nur Faiz bin Abdullah</p>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4">
+        <p class="font-semibold text-slate-700 text-sm mb-2" data-en="Pelabuhan Klang Registry" data-ms="Pendaftar Pelabuhan Klang">Pelabuhan Klang Registry</p>
+        <p class="text-xs text-slate-500 mb-1">03-3346 7709</p>
+        <p class="text-xs text-slate-400">En. Ariff Ariza Bin Abd Aziz</p>
+        <p class="text-xs text-slate-400">En. Mohd Yazid B. Mohd Nor</p>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4">
+        <p class="font-semibold text-slate-700 text-sm mb-2" data-en="Kuching Registry" data-ms="Pendaftar Kuching">Kuching Registry</p>
+        <p class="text-xs text-slate-500 mb-1">082-484159</p>
+        <p class="text-xs text-slate-400">En. Hudson George Anak Dangar</p>
+        <p class="text-xs text-slate-400">Pn. Sapiah Binti Jopli</p>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4">
+        <p class="font-semibold text-slate-700 text-sm mb-2" data-en="Kota Kinabalu Registry" data-ms="Pendaftar Kota Kinabalu">Kota Kinabalu Registry</p>
+        <p class="text-xs text-slate-500 mb-1">088-401111</p>
+        <p class="text-xs text-slate-400">En. Muhammad Azmer Bin Othman</p>
+        <p class="text-xs text-slate-400">Cornelia Salabin</p>
+      </div>
+      <div class="bg-slate-50 rounded-xl p-4 md:col-span-2">
+        <p class="font-semibold text-slate-700 text-sm mb-2" data-en="Labuan Registry" data-ms="Pendaftar Labuan">Labuan Registry</p>
+        <p class="text-xs text-slate-500 mb-1">087-413511</p>
+        <p class="text-xs text-slate-400">En. Rizal bin Roslin</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-navy px-6 lg:px-10 pt-14 pb-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-10">
+    <div>
+      <img src="/assets/images/edsl_logo.png" alt="eDSL" class="h-12 mb-4"/>
+      <p class="text-slate-500 text-sm leading-relaxed" data-en="e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License." data-ms="e-Lesen Perkapalan Dalam Negeri (eDSL) adalah sistem dalam talian untuk memohon Lesen Perkapalan Dalam Negeri.">e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License.</p>
+      <p class="text-slate-600 text-xs mt-3">Version: 2.2.0 (11.05.2019)</p>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</h4>
+      <div class="space-y-1 text-sm text-slate-500">
+        <p>Jabatan Laut Malaysia</p><p>Ibu Pejabat Laut, Menara Dius Api</p>
+        <p>PT 664, Jalan Limbungan, 42007 Pelabuhan Klang</p>
+        <a href="mailto:edsljlm@marine.gov.my" class="text-accent hover:underline block mt-2 text-sm">edsljlm@marine.gov.my</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Links" data-ms="Pautan">Links</h4>
+      <div class="space-y-2">
+        <a href="https://www.marine.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">Jabatan Laut Malaysia</a>
+        <a href="https://www.malaysia.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">MyGovernment</a>
+        <a href="/privacy-policy/" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Privacy Policy" data-ms="Dasar Privasi">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <!-- MAP -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3" data-en="Our Location" data-ms="Lokasi Kami">Our Location</h4>
+    <div class="rounded-2xl overflow-hidden border border-slate-700/60" style="height:220px;">
+      <iframe src="https://maps.google.com/maps?q=Jabatan+Laut+Malaysia+PT+664+Jalan+Limbungan+Pelabuhan+Klang&hl=en&z=14&output=embed" width="100%" height="220" style="border:0;" loading="lazy" allowfullscreen title="Jabatan Laut Malaysia"></iframe>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto border-t border-slate-800 pt-5 flex justify-between">
+    <p class="text-slate-600 text-xs" data-en="Copyright Reserved © 2019 Jabatan Laut Malaysia." data-ms="Hak Cipta Terpelihara © 2019 Jabatan Laut Malaysia.">Copyright Reserved © 2019 Jabatan Laut Malaysia.</p>
+    <p class="text-slate-600 text-xs">eDSL System v2.2.0</p>
+  </div>
+</footer>
+
+<script src="/assets/js/lang.js"></script>
+<script>
+function goToStep2() {
+  const sel = document.getElementById('jenisDaftar');
+  if (sel.value === '0') { alert('Please select a registration type.'); return; }
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.remove('hidden');
+  document.getElementById('step1-indicator').classList.remove('bg-accent');
+  document.getElementById('step1-indicator').classList.add('bg-green-500');
+  document.getElementById('step1-indicator').textContent = '✓';
+  document.getElementById('step2-indicator').classList.remove('bg-slate-200','text-slate-500');
+  document.getElementById('step2-indicator').classList.add('bg-accent','text-white');
+  document.getElementById('step2-label').classList.remove('text-slate-400');
+  document.getElementById('step2-label').classList.add('text-slate-700','font-semibold');
+}
+function goToStep1() {
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step1').classList.remove('hidden');
+  document.getElementById('step1-indicator').classList.add('bg-accent');
+  document.getElementById('step1-indicator').classList.remove('bg-green-500');
+  document.getElementById('step1-indicator').textContent = '1';
+  document.getElementById('step2-indicator').classList.add('bg-slate-200','text-slate-500');
+  document.getElementById('step2-indicator').classList.remove('bg-accent','text-white');
+  document.getElementById('step2-label').classList.add('text-slate-400');
+  document.getElementById('step2-label').classList.remove('text-slate-700','font-semibold');
+}
+</script>
+</body>
+</html>
