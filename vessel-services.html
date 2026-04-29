@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Vessel Procurement — eDSL</title>
+<link rel="icon" href="assets/images/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { DEFAULT: '#0f172a', card: '#1e293b' },
+        accent: { DEFAULT: '#0ea5e9', dark: '#0284c7', light: '#e0f2fe', border: '#bae6fd' },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+    }
+  }
+}
+</script>
+<style>
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  @keyframes waveMove1 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  @keyframes waveMove2 { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
+  @keyframes waveMove3 { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
+  .wave1 { animation: waveMove1  9s linear infinite; }
+  .wave2 { animation: waveMove2 12s linear infinite; }
+  .wave3 { animation: waveMove3 15s linear infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .wave1, .wave2, .wave3 { animation-play-state: paused; }
+  }
+</style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<nav class="bg-navy sticky top-0 z-50 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="index.html"><img src="assets/images/logo.png" alt="eDSL" class="h-11"/></a>
+    <div class="hidden md:flex items-center gap-1">
+      <a href="index.html" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Home" data-ms="Laman Utama">Home</a>
+      <a href="user-guide.html" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="User Guide" data-ms="Panduan Pengguna">User Guide</a>
+      <a href="resources.html" class="text-slate-400 hover:text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors" data-en="Resources" data-ms="Rujukan">Resources</a>
+      <a href="vessel-services.html" class="text-white text-sm font-semibold px-3 py-2 rounded-lg" data-en="Vessel Procurement" data-ms="Tawaran Perkhidmatan Kapal">Vessel Procurement</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="register.html" class="bg-accent hover:bg-accent-dark text-white rounded-full px-4 py-1.5 text-sm font-semibold transition-colors" data-en="Sign In" data-ms="Log Masuk">Sign In</a>
+      <div class="flex items-center border border-slate-700 rounded-full overflow-hidden text-xs font-semibold">
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn text-white px-3 py-1.5 hover:bg-slate-800 transition-colors">EN</button>
+        <span class="text-slate-700">|</span>
+        <button onclick="setLang('ms')" data-lang="ms" class="lang-btn text-slate-400 px-3 py-1.5 hover:bg-slate-800 transition-colors">BM</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="relative overflow-hidden bg-gradient-to-br from-[#0f172a] to-[#1e3a5f] px-6 lg:px-10 py-14">
+  <div class="max-w-7xl mx-auto">
+    <p class="text-xs font-bold tracking-widest uppercase text-accent mb-2" data-en="eDSL Portal" data-ms="Portal eDSL">eDSL Portal</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold text-white" data-en="Request for Malaysian Vessel" data-ms="Permohonan untuk Kapal Malaysia">Request for Malaysian Vessel</h1>
+    <p class="text-slate-400 mt-2 text-sm" data-en="Active vessel procurement listings. Click on an application number for full details." data-ms="Senarai perolehan kapal aktif. Klik pada nombor permohonan untuk butiran penuh.">Active vessel procurement listings. Click on an application number for full details.</p>
+  </div>
+  <!-- WAVES -->
+  <div class="absolute bottom-0 left-0 w-full pointer-events-none overflow-hidden" style="height:50px">
+    <svg class="wave1 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.09)" d="M0,25 C200,45 400,5 600,25 C800,45 1000,5 1200,25 C1320,35 1400,20 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:6px;height:50px">
+    <svg class="wave2 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(14,165,233,0.06)" d="M0,15 C240,38 480,5 720,20 C960,35 1200,8 1440,22 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+  <div class="absolute left-0 w-full pointer-events-none overflow-hidden" style="bottom:12px;height:50px">
+    <svg class="wave3 block" style="width:200%;height:100%" viewBox="0 0 1440 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path fill="rgba(30,58,95,0.5)" d="M0,35 C180,15 360,40 540,28 C720,15 900,38 1080,22 C1260,8 1380,30 1440,25 L1440,50 L0,50Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-7xl mx-auto px-6 lg:px-10 py-10 grid lg:grid-cols-[1fr_300px] gap-8">
+
+  <!-- TABLE -->
+  <div class="fade-up overflow-x-auto">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="bg-slate-800 text-slate-200">
+            <th class="px-4 py-3 text-left font-semibold w-8">#</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="DSL App. No." data-ms="No. Permohonan DSL">DSL App. No.</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="Vessel Type" data-ms="Jenis Kapal">Vessel Type</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="Vessel Name" data-ms="Nama Kapal">Vessel Name</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="Shipping Company" data-ms="Syarikat Perkapalan">Shipping Company</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="End of Request" data-ms="Akhir Permohonan">End of Request</th>
+            <th class="px-4 py-3 text-left font-semibold">Laycan</th>
+            <th class="px-4 py-3 text-left font-semibold" data-en="Days" data-ms="Hari">Days</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">1</td><td class="px-4 py-3 text-accent font-medium">eDSL2034/2026</td><td class="px-4 py-3 text-slate-600">GENERAL CARGO</td><td class="px-4 py-3 font-medium text-slate-700">MAXAN 8</td><td class="px-4 py-3 text-slate-500">OSL VIETNAM SHIPPING AND TRADING CO. LTD</td><td class="px-4 py-3 text-slate-500">04/05/2026</td><td class="px-4 py-3 text-slate-500">07/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">2</td><td class="px-4 py-3 text-accent font-medium">eDSL2028/2026</td><td class="px-4 py-3 text-slate-600">BARGE</td><td class="px-4 py-3 font-medium text-slate-700">ANTARA KOH 338</td><td class="px-4 py-3 text-slate-500">ANTARA KOH PRIVATE LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">3</td><td class="px-4 py-3 text-accent font-medium">eDSL1999/2026</td><td class="px-4 py-3 text-slate-600">FULL CONTAINER</td><td class="px-4 py-3 font-medium text-slate-700">UNI-POPULAR</td><td class="px-4 py-3 text-slate-500">EVERGREEN MARINE (HONG KONG) LTD.</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">07/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">4</td><td class="px-4 py-3 text-accent font-medium">eDSL2000/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">VERITY</td><td class="px-4 py-3 text-slate-500">HONG LAM MARINE PTE. LTD.</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">10/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">5</td><td class="px-4 py-3 text-accent font-medium">eDSL2001/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">ES ASPIRE</td><td class="px-4 py-3 text-slate-500">ES ASPIRE PTE LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">6</td><td class="px-4 py-3 text-accent font-medium">eDSL2004/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">CS PROSPERITY</td><td class="px-4 py-3 text-slate-500">CSHA SHIPPING COMPANY LIMITED</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">08/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">7</td><td class="px-4 py-3 text-accent font-medium">eDSL2003/2026</td><td class="px-4 py-3 text-slate-600">SAND CARRIER</td><td class="px-4 py-3 font-medium text-slate-700">ZD 99</td><td class="px-4 py-3 text-slate-500">Q&amp;S TRANSPORT SDN BHD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">8</td><td class="px-4 py-3 text-accent font-medium">eDSL2006/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">DONG GUI 19</td><td class="px-4 py-3 text-slate-500">GUANGDONG HONGXIN SHIPPING CO LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">06/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">9</td><td class="px-4 py-3 text-accent font-medium">eDSL2009/2026</td><td class="px-4 py-3 text-slate-600">CHEMICAL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">THERESA LEO</td><td class="px-4 py-3 text-slate-500">PATRICIA SHIPPING CO PTE LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-600 font-medium">22</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">10</td><td class="px-4 py-3 text-accent font-medium">eDSL2011/2026</td><td class="px-4 py-3 text-slate-600">GENERAL CARGO</td><td class="px-4 py-3 font-medium text-slate-700">BINTANG LIBERTY 5</td><td class="px-4 py-3 text-slate-500">MIDAS MIRACLE SDN BHD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">15/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">11</td><td class="px-4 py-3 text-accent font-medium">eDSL2012/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">OCEAN GAEA</td><td class="px-4 py-3 text-slate-500">CENTURYPROSPERITY SHIPPING CO., LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">29</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">12</td><td class="px-4 py-3 text-accent font-medium">eDSL2015/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">SHENG HANG HUA 1</td><td class="px-4 py-3 text-slate-500">NANJING SHENGHANG SHIPPING CO., LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">89</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">13</td><td class="px-4 py-3 text-accent font-medium">eDSL2017/2026</td><td class="px-4 py-3 text-slate-600">TANKER</td><td class="px-4 py-3 font-medium text-slate-700">CHENG LANG 19</td><td class="px-4 py-3 text-slate-500">ZHEJIANG ZHEYIN FINANCIAL LEASING CO LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">60</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">14</td><td class="px-4 py-3 text-accent font-medium">eDSL2016/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">TORM TORINO</td><td class="px-4 py-3 text-slate-500">TORM A/S</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">15</td><td class="px-4 py-3 text-accent font-medium">eDSL2019/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">PB BOONNADA</td><td class="px-4 py-3 text-slate-500">TRUTH MARITIME CO., LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">16</td><td class="px-4 py-3 text-accent font-medium">eDSL2023/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">FORTUNE YOUNGIN</td><td class="px-4 py-3 text-slate-500">BS SHIPPING CO., LTD.</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">26/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">17</td><td class="px-4 py-3 text-accent font-medium">eDSL2021/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">GLORY OCEAN</td><td class="px-4 py-3 text-slate-500">KHAI HOAN MARINE CORPORATION</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">02/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">18</td><td class="px-4 py-3 text-accent font-medium">eDSL2022/2026</td><td class="px-4 py-3 text-slate-600">BARGE</td><td class="px-4 py-3 font-medium text-slate-700">YTC 67</td><td class="px-4 py-3 text-slate-500">YENG TONG CONSTRUCTION PTE LTD</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">19</td><td class="px-4 py-3 text-accent font-medium">eDSL2024/2026</td><td class="px-4 py-3 text-slate-600">BARGE</td><td class="px-4 py-3 font-medium text-slate-700">YTC 38</td><td class="px-4 py-3 text-slate-500">YENG TONG CONSTRUCTION PTE. LTD.</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">20</td><td class="px-4 py-3 text-accent font-medium">eDSL2025/2026</td><td class="px-4 py-3 text-slate-600">CHEMICAL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">KENJI</td><td class="px-4 py-3 text-slate-500">MIZUKI LTD.</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">21</td><td class="px-4 py-3 text-accent font-medium">eDSL2026/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">AULAC SIRIUS</td><td class="px-4 py-3 text-slate-500">AULAC CORPORATION</td><td class="px-4 py-3 text-slate-500">30/04/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">22</td><td class="px-4 py-3 text-accent font-medium">eDSL2033/2026</td><td class="px-4 py-3 text-slate-600">GENERAL CARGO</td><td class="px-4 py-3 font-medium text-slate-700">LK OCEAN 79</td><td class="px-4 py-3 text-slate-500">LK SHIPPING COMPANY LIMITED</td><td class="px-4 py-3 text-slate-500">04/05/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">23</td><td class="px-4 py-3 text-accent font-medium">eDSL2036/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">MARAN HELEN</td><td class="px-4 py-3 text-slate-500">SOLID MARITIME S.A.</td><td class="px-4 py-3 text-slate-500">04/05/2026</td><td class="px-4 py-3 text-slate-500">01/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">10</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">24</td><td class="px-4 py-3 text-accent font-medium">eDSL2040/2026</td><td class="px-4 py-3 text-slate-600">ANCHOR HANDLING TUG &amp; SUPPLY</td><td class="px-4 py-3 font-medium text-slate-700">ENA ENDEAVOUR</td><td class="px-4 py-3 text-slate-500">EASTERN NAVIGATION PTE LTD</td><td class="px-4 py-3 text-slate-500">04/05/2026</td><td class="px-4 py-3 text-slate-500">12/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">30</td></tr>
+          <tr class="hover:bg-slate-50 transition-colors"><td class="px-4 py-3 text-slate-400">25</td><td class="px-4 py-3 text-accent font-medium">eDSL2039/2026</td><td class="px-4 py-3 text-slate-600">OIL TANKER</td><td class="px-4 py-3 font-medium text-slate-700">SRIWANGI II</td><td class="px-4 py-3 text-slate-500">KALIANDA PERMATA TRANSPORT PTE LTD</td><td class="px-4 py-3 text-slate-500">04/05/2026</td><td class="px-4 py-3 text-slate-500">06/05/2026</td><td class="px-4 py-3 text-slate-600 font-medium">90</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-slate-400 mt-3 leading-relaxed" data-en="Click on the eDSL application number for further information on the technical and operational requirements. Malaysian ship owners may offer their vessels by applying through the eDSL portal." data-ms="Klik pada nombor permohonan eDSL untuk maklumat lanjut mengenai keperluan teknikal dan operasi. Pemilik kapal Malaysia boleh menawarkan kapal mereka dengan memohon melalui portal eDSL.">Click on the eDSL application number for further information on the technical and operational requirements. Malaysian ship owners may offer their vessels by applying through the eDSL portal.</p>
+  </div>
+
+  <!-- HOW TO OFFER SIDEBAR -->
+  <div class="fade-up">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sticky top-20">
+      <p class="text-xs font-bold tracking-widest uppercase text-accent mb-4" data-en="How to Offer Malaysian Vessel?" data-ms="Cara Menawarkan Kapal Malaysia?">How to Offer Malaysian Vessel?</p>
+      <div class="space-y-4">
+        <div class="flex items-start gap-3">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+          <p class="text-sm text-slate-600" data-en="Click on the eDSL application number to view technical and operational requirements." data-ms="Klik pada nombor permohonan eDSL untuk melihat keperluan teknikal dan operasi.">Click on the eDSL application number to view technical and operational requirements.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+          <p class="text-sm text-slate-600" data-en="Visit the MMDIS system to update your vessel registration profile." data-ms="Lawati sistem MMDIS untuk mengemaskini profil pendaftaran kapal anda.">Visit the MMDIS system to update your vessel registration profile.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+          <p class="text-sm text-slate-600" data-en="Log in to the eDSL portal and submit your vessel offer against the listed application." data-ms="Log masuk ke portal eDSL dan hantar tawaran kapal anda bagi permohonan yang tersenarai.">Log in to the eDSL portal and submit your vessel offer against the listed application.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="bg-accent text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+          <p class="text-sm text-slate-600" data-en="Contact Jabatan Laut Malaysia for any vessel registration enquiries." data-ms="Hubungi Jabatan Laut Malaysia untuk sebarang pertanyaan pendaftaran kapal.">Contact Jabatan Laut Malaysia for any vessel registration enquiries.</p>
+        </div>
+      </div>
+      <div class="mt-6 pt-4 border-t border-slate-100">
+        <a href="mailto:edsljlm@marine.gov.my" class="block text-center bg-accent hover:bg-accent-dark text-white rounded-full py-2.5 text-sm font-semibold transition-colors" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-navy px-6 lg:px-10 pt-14 pb-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 mb-10">
+    <div>
+      <img src="assets/images/edsl_logo.png" alt="eDSL" class="h-12 mb-4"/>
+      <p class="text-slate-500 text-sm leading-relaxed" data-en="e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License." data-ms="e-Lesen Perkapalan Dalam Negeri (eDSL) adalah sistem dalam talian untuk memohon Lesen Perkapalan Dalam Negeri.">e-Domestic Shipping License (eDSL) is an online system for applying for Domestic Shipping License.</p>
+      <p class="text-slate-600 text-xs mt-3">Version: 2.2.0 (11.05.2019)</p>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Contact Us" data-ms="Hubungi Kami">Contact Us</h4>
+      <div class="space-y-1 text-sm text-slate-500">
+        <p>Jabatan Laut Malaysia</p><p>Ibu Pejabat Laut, Menara Dius Api</p>
+        <p>PT 664, Jalan Limbungan, 42007 Pelabuhan Klang</p>
+        <a href="mailto:edsljlm@marine.gov.my" class="text-accent hover:underline block mt-2 text-sm">edsljlm@marine.gov.my</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4" data-en="Links" data-ms="Pautan">Links</h4>
+      <div class="space-y-2">
+        <a href="https://www.marine.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">Jabatan Laut Malaysia</a>
+        <a href="https://www.malaysia.gov.my" class="block text-sm text-slate-500 hover:text-accent transition-colors">MyGovernment</a>
+        <a href="privacy-policy.html" class="block text-sm text-slate-500 hover:text-accent transition-colors" data-en="Privacy Policy" data-ms="Dasar Privasi">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+  <!-- MAP -->
+  <div class="max-w-7xl mx-auto mb-8">
+    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3" data-en="Our Location" data-ms="Lokasi Kami">Our Location</h4>
+    <div class="rounded-2xl overflow-hidden border border-slate-700/60" style="height:220px;">
+      <iframe src="https://maps.google.com/maps?q=Jabatan+Laut+Malaysia+PT+664+Jalan+Limbungan+Pelabuhan+Klang&hl=en&z=14&output=embed" width="100%" height="220" style="border:0;" loading="lazy" allowfullscreen title="Jabatan Laut Malaysia"></iframe>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto border-t border-slate-800 pt-5 flex justify-between">
+    <p class="text-slate-600 text-xs" data-en="Copyright Reserved © 2019 Jabatan Laut Malaysia." data-ms="Hak Cipta Terpelihara © 2019 Jabatan Laut Malaysia.">Copyright Reserved © 2019 Jabatan Laut Malaysia.</p>
+    <p class="text-slate-600 text-xs">eDSL System v2.2.0</p>
+  </div>
+</footer>
+
+<script src="assets/js/lang.js"></script>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
